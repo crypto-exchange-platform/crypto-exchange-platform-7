@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="bg-gradient-to-br from-[#6c5ce7] to-[#00cec9] text-white py-10"
+      className="bg-gradient-to-br from-violet-950/30 to-violet-950 text-white py-10"
     >
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
         <div className="md:w-2/3 mb-10 md:mb-0">
@@ -38,7 +38,7 @@ export default function Hero() {
           <img
             src="/ethereum.png"
             alt="Ethereum"
-            className="w-20 h-20 absolute top-1 left-1 animate-bounce"
+            className="w-20 h-20 absolute top-1 left-40 animate-bounce"
             style={{ animationDelay: "0.2s" }}
           />
           <img
@@ -47,6 +47,25 @@ export default function Hero() {
             className="w-20 h-20 absolute top-0 left-25 animate-bounce"
             style={{ animationDelay: "0.4s" }}
           />
+          <img
+              src="/polkastarter.svg"
+              alt="Tether"
+              className="w-14 h-20 absolute top-0 left-38 animate-bounce"
+              style={{ animationDelay: "0.4s" }}
+          />
+          <img
+              src="/cosmos.svg"
+              alt="Tether"
+              className="w-18 h-18 absolute top-0  animate-bounce"
+              style={{ animationDelay: "0.4s" }}
+          />
+          <img
+              src="/tether.webp"
+              alt="Tether"
+              className="w-20 h-20 absolute top-0 left-25 animate-bounce"
+              style={{ animationDelay: "0.4s" }}
+          />
+
 
           <div className="space-y-6 mt-20">
             {[
