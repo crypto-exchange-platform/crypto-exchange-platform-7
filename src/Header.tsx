@@ -19,7 +19,7 @@ export const Header: FC<HeaderProps> = ({ onLogin, onSignup }) => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <i className="fas fa-coins text-2xl" />
-          <span className="text-xl font-bold">CryptoVerse</span>
+          <span className="text-xl font-bold">CryptoV</span>
         </div>
 
         <nav className="hidden md:flex space-x-8">

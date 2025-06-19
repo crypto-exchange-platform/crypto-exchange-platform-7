@@ -9,7 +9,7 @@ export const Footer: FC = () => {
                         <div className="flex items-center space-x-2 mb-4">
                             <i className="fab fa-bitcoin text-3xl text-yellow-400"></i>
                             <h3 className="text-2xl font-bold">
-                                Crypto<span className="text-yellow-400">Xchange</span>
+                                CryptoV
                             </h3>
                         </div>
                         <p className="text-gray-400 mb-4">
