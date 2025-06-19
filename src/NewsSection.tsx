@@ -1,111 +1,116 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 interface NewsArticle {
-    title: string;
-    description: string;
-    pubDate: string;
-    link: string;
-    image_url?: string;
+  title: string;
+  description: string;
+  pubDate: string;
+  link: string;
+  image_url?: string;
 }
 
 interface NewsItem {
-    category: string;
-    time: string;
-    icon: string;
-    title: string;
-    description: string;
-    image: string;
-    gradient: string;
+  title: string;
+  description: string;
+  time: string;
+  image: string;
+  link: string;
 }
 
-const NewsSection = () => {
-    const [newsList, setNewsList] = useState<NewsItem[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+export default function NewsSection() {
+  const [articles, setArticles] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                const res = await fetch(
-                    `https://newsdata.io/api/1/news?apikey=pub_83392b9f258a41118d58905dceadd83a&q=forex&category=business&language=en`
-                );
-                const data = await res.json();
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const res = await fetch(
+          'https://newsdata.io/api/1/news?apikey=pub_83392b9f258a41118d58905dceadd83a&q=forex&category=business&language=en'
+        );
+        const data = await res.json();
+        const mapped = (data.results as NewsArticle[])
+          .slice(0, 6)
+          .map((art) => ({
+            title: art.title,
+            description: art.description,
+            time: new Date(art.pubDate).toLocaleDateString('en-US', {
+              month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            }),
+            image: art.image_url || '/placeholder.png',
+            link: art.link,
+          }));
+        setArticles(mapped);
+      } catch {
+        setError('Unable to load news');
+      } finally {
+        setLoading(false);
+      }
+    }
 
-                const mapped = (data.results as NewsArticle[]).slice(0, 6).map((article, i) => ({
-                    category: 'Forex News',
-                    time: new Date(article.pubDate).toLocaleString(),
-                    icon: 'fas fa-newspaper',
-                    title: article.title,
-                    description: article.description,
-                    image: article.image_url || 'https://via.placeholder.com/600x400',
-                    gradient: i % 2 === 0 ? 'from-indigo-500 to-teal-300' : 'from-teal-300 to-indigo-500',
-                }));
+    fetchNews();
+  }, []);
 
-                setNewsList(mapped);
-            } catch (err) {
-                console.error('API Error:', err);
-                setError('Failed to fetch news');
-            } finally {
-                setLoading(false);
-            }
-        };
+  return (
+    <section id="news" className="py-24 bg-violet-950/30">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-extrabold">Latest Forex Insights</h2>
+          <p className="mt-2 text-gray-600">
+            Get up-to-date analysis and news from the FX market.
+          </p>
+        </div>
 
-        fetchNews();
-    }, []);
-
-    return (
-        <section id="news" className="py-20 bg-violet-950/30">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Latest Forex News</h2>
-                    <p className="max-w-2xl mx-auto text-lg text-gray-400">
-                        Stay updated with the latest foreign exchange market trends
-                    </p>
-                </div>
-
-                {loading ? (
-                    <p className="text-center text-white">Loading...</p>
-                ) : error ? (
-                    <p className="text-center text-red-500">{error}</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {newsList.map((news, index) => (
-                            <div
-                                key={index}
-                                className="relative rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-gray-800 to-gray-900 hover:-translate-y-1 transition"
-                            >
-                                <div
-                                    className="absolute inset-0 bg-cover bg-center opacity-30"
-                                    style={{ backgroundImage: `url(${news.image})` }}
-                                />
-                                <div className={`relative h-12 bg-gradient-to-r ${news.gradient} flex items-center justify-center`}>
-                                    <i className={`${news.icon} text-6xl text-white opacity-40`}></i>
-                                </div>
-                                <div className="relative p-6 z-10">
-                                    <div className="flex items-center text-sm text-gray-400 mb-2">
-                                        <span>{news.category}</span>
-                                        <span className="mx-2">•</span>
-                                        <span>{news.time}</span>
-                                    </div>
-                                    <h3 className="text-xl font-semibold text-white mb-3">{news.title}</h3>
-                                    <p className="text-gray-300 mb-4">{news.description}</p>
-                                    <a href="#" className="text-indigo-400 hover:text-teal-300 font-medium flex items-center">
-                                        Read More <i className="fas fa-arrow-right ml-2"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                <div className="text-center mt-12">
-                    <button className="bg-gradient-to-r from-indigo-500 to-teal-300 text-white px-8 py-3 rounded-full text-lg font-semibold hover:opacity-90 transition duration-300">
-                        View All News Articles
+        {loading ? (
+          <div className="flex justify-center">
+            <Loader2 className="animate-spin h-8 w-8 text-gray-500" aria-label="Loading" />
+          </div>
+        ) : error ? (
+          <p className="text-red-500 text-center">{error}</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {articles.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-48 w-full object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2 line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-4 line-clamp-3">
+                    {item.description}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-gray-400">
+                    <span>{item.time}</span>
+                    <button
+                      className="text-indigo-500 hover:text-teal-300 font-medium"
+                      onClick={() => window.open(item.link, '_blank')}
+                    >
+                      Read More
                     </button>
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
-};
+              </div>
+            ))}
+          </div>
+        )}
 
-export default NewsSection;
+        <div className="mt-12 text-center">
+          <button
+            className="bg-indigo-500 hover:bg-teal-300 text-white px-6 py-2 rounded-full font-semibold transition"
+            onClick={() => window.open('https://newsdata.io', '_blank')}
+          >
+            View All Articles
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+ 

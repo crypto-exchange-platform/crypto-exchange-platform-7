@@ -72,13 +72,13 @@ export default function Hero() {
               {
                 name: "Bitcoin",
                 logo: "bitcoin.webp",
-                price: "$42,856.12",
+                price: "$104,856.12",
                 change: 2.45,
                 tagline: "🚀 Gearing up for new highs!",
                 marketCap: "$810B",
                 volume: "$24B",
-                high24h: "$43,200",
-                low24h: "$41,500",
+                high24h: "$100,200",
+                low24h: "$104,500",
               },
               {
                 name: "Ethereum",
@@ -135,7 +135,7 @@ export default function Hero() {
                     {c.high24h}
                   </div>
                 </div>
-                <button className="w-full mt-auto bg-white text-[#6c5ce7] py-2 rounded-lg font-medium hover:bg-gray-200 transition">
+                <button className="w-full mt-auto bg-white text-[#6c5ce7] py-2 rounded-lg font-bold hover:bg-gray-200 transition">
                   View All
                 </button>
               </div>

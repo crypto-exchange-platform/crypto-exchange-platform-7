@@ -4,9 +4,10 @@ import { SignupModal } from "./SignUpModal";
 import { useState } from "react";
 import { Header } from "./Header";
 import NewsSection from "./NewsSection";
-import {TradingView} from "./TradingViewWidget";
-import {Footer} from "./Footer";
-import Testimonials from "./Testimonials"
+import { TradingView } from "./TradingViewWidget";
+import { Footer } from "./Footer";
+import Testimonials from "./Testimonials";
+import CryptoSection from "./CryptoSection";
 
 function LandingPage() {
   const [modal, setModal] = useState<"login" | "signup" | null>(null);
@@ -26,10 +27,13 @@ function LandingPage() {
           onSignup={() => setModal("signup")}
         />{" "}
         <Hero />
-          <NewsSection/>
-          <TradingView/>
-          <Testimonials/>
-          <Footer/>
+                        <CryptoSection />
+
+        <NewsSection />
+
+        <TradingView />
+        <Testimonials />
+        <Footer />
       </div>
     </>
   );
